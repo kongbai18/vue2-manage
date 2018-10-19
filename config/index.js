@@ -27,7 +27,16 @@ module.exports = {
     autoOpenBrowser: true,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+        '/': {
+                target: 'http://jiihome.shimentown.com',
+                changeOrigin: true,
+                secure: false,
+                pathRewrite: {
+                    '^/': '/'
+                }
+            }
+    },
     context: [ //代理路径
         '/shopping',
         '/ugc',

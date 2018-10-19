@@ -3,7 +3,7 @@
 	  	<transition name="form-fade" mode="in-out">
 	  		<section class="form_contianer" v-show="showLogin">
 		  		<div class="manage_tip">
-		  			<p>elm后台管理系统</p>
+		  			<p>Jiihome后台管理系统</p>
 		  		</div>
 		    	<el-form :model="loginForm" :rules="rules" ref="loginForm">
 					<el-form-item prop="username">
@@ -12,13 +12,14 @@
 					<el-form-item prop="password">
 						<el-input type="password" placeholder="密码" v-model="loginForm.password"></el-input>
 					</el-form-item>
+					<el-form-item prop="code">
+						<el-input placeholder="验证码" v-model="loginForm.code"></el-input>
+					</el-form-item>
+					<img src="http://jiihome.shimentown.com/captcha" onclick="this.src='http://jiihome.shimentown.com/captcha?d='+Math.random();" style="margin-bottom:10px;" />	
 					<el-form-item>
 				    	<el-button type="primary" @click="submitForm('loginForm')" class="submit_btn">登陆</el-button>
 				  	</el-form-item>
 				</el-form>
-				<p class="tip">温馨提示：</p>
-				<p class="tip">未登录过的新用户，自动注册</p>
-				<p class="tip">注册过的用户可凭账号密码登录</p>
 	  		</section>
 	  	</transition>
   	</div>
@@ -27,6 +28,7 @@
 <script>
 	import {login, getAdminInfo} from '@/api/getData'
 	import {mapActions, mapState} from 'vuex'
+	import storage from '@/model/storage.js'
 
 	export default {
 	    data(){
@@ -34,6 +36,7 @@
 				loginForm: {
 					username: '',
 					password: '',
+					code:'',
 				},
 				rules: {
 					username: [
@@ -41,6 +44,9 @@
 			        ],
 					password: [
 						{ required: true, message: '请输入密码', trigger: 'blur' }
+					],
+					code: [
+						{ required: true, message: '请输入验证码', trigger: 'blur' }
 					],
 				},
 				showLogin: false,
@@ -60,12 +66,14 @@
 			async submitForm(formName) {
 				this.$refs[formName].validate(async (valid) => {
 					if (valid) {
-						const res = await login({user_name: this.loginForm.username, password: this.loginForm.password})
+						const res = await login({username: this.loginForm.username, password: this.loginForm.password,code: this.loginForm.code})
 						if (res.status == 1) {
 							this.$message({
 		                        type: 'success',
 		                        message: '登录成功'
 		                    });
+		                    console.log(res);
+		                    storage.set('menu',res.data.btnData);
 							this.$router.push('manage')
 						}else{
 							this.$message({
@@ -114,8 +122,8 @@
 		}
 	}
 	.form_contianer{
-		.wh(320px, 210px);
-		.ctp(320px, 210px);
+		.wh(320px, 280px);
+		.ctp(320px, 310px);
 		padding: 25px;
 		border-radius: 5px;
 		text-align: center;

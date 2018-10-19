@@ -11,7 +11,7 @@ let routerMode = 'hash';
 let baseImgPath;
 
 if (process.env.NODE_ENV == 'development') {
-	baseUrl = '';
+	baseUrl = 'http://jiihome.shimentown.com';
     baseImgPath = '/img/';
 }else{
 	baseUrl = '//elm.cangdu.org';

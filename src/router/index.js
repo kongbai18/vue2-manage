@@ -6,18 +6,28 @@ Vue.use(Router)
 const login = r => require.ensure([], () => r(require('@/page/login')), 'login');
 const manage = r => require.ensure([], () => r(require('@/page/manage')), 'manage');
 const home = r => require.ensure([], () => r(require('@/page/home')), 'home');
-const addShop = r => require.ensure([], () => r(require('@/page/addShop')), 'addShop');
-const addGoods = r => require.ensure([], () => r(require('@/page/addGoods')), 'addGoods');
-const userList = r => require.ensure([], () => r(require('@/page/userList')), 'userList');
-const shopList = r => require.ensure([], () => r(require('@/page/shopList')), 'shopList');
-const foodList = r => require.ensure([], () => r(require('@/page/foodList')), 'foodList');
-const orderList = r => require.ensure([], () => r(require('@/page/orderList')), 'orderList');
-const adminList = r => require.ensure([], () => r(require('@/page/adminList')), 'adminList');
-const visitor = r => require.ensure([], () => r(require('@/page/visitor')), 'visitor');
-const newMember = r => require.ensure([], () => r(require('@/page/newMember')), 'newMember');
-const uploadImg = r => require.ensure([], () => r(require('@/page/uploadImg')), 'uploadImg');
-const vueEdit = r => require.ensure([], () => r(require('@/page/vueEdit')), 'vueEdit');
-const adminSet = r => require.ensure([], () => r(require('@/page/adminSet')), 'adminSet');
+const goods = r => require.ensure([], () => r(require('@/page/goods/goods/goods')), 'goods');
+const addGoods = r => require.ensure([], () => r(require('@/page/goods/goods/addGoods')), 'addGoods');
+const editGoods = r => require.ensure([], () => r(require('@/page/goods/goods/editGoods')), 'editGoods');
+const category = r => require.ensure([], () => r(require('@/page/goods/category/category')), 'category');
+const addCategory = r => require.ensure([], () => r(require('@/page/goods/category/addCategory')), 'addCategory');
+const editCategory = r => require.ensure([], () => r(require('@/page/goods/category/editCate')), 'editCategory');
+const delivery = r => require.ensure([], () => r(require('@/page/goods/delivery/delivery')), 'delivery');
+const addDelivery = r => require.ensure([], () => r(require('@/page/goods/delivery/addDelivery')), 'addDelivery');
+const editDelivery = r => require.ensure([], () => r(require('@/page/goods/delivery/editDelivery')), 'editDelivery');
+const article = r => require.ensure([], () => r(require('@/page/shopList')), 'article');
+const articlecate = r => require.ensure([], () => r(require('@/page/foodList')), 'articlecate');
+const model = r => require.ensure([], () => r(require('@/page/orderList')), 'model');
+const furniture = r => require.ensure([], () => r(require('@/page/adminList')), 'furniture');
+const permission = r => require.ensure([], () => r(require('@/page/admin/permissionList')), 'permission');
+const role = r => require.ensure([], () => r(require('@/page/admin/roleList')), 'role');
+const addRole = r => require.ensure([], () => r(require('@/page/admin/addRole')), 'addRole');
+const editRole = r => require.ensure([], () => r(require('@/page/admin/editRole')), 'editRole');
+const admin = r => require.ensure([], () => r(require('@/page/admin/adminList')), 'admin');
+const addAdmin = r => require.ensure([], () => r(require('@/page/admin/addAdmin')), 'addAdmin');
+const editAdmin = r => require.ensure([], () => r(require('@/page/admin/editAdmin')), 'editAdmin');
+const addPermission = r => require.ensure([], () => r(require('@/page/admin/addPermission')), 'addPermission');
+const editPermission = r => require.ensure([], () => r(require('@/page/admin/editPermission')), 'editPermission');
 const sendMessage = r => require.ensure([], () => r(require('@/page/sendMessage')), 'sendMessage');
 const explain = r => require.ensure([], () => r(require('@/page/explain')), 'explain');
 
@@ -35,61 +45,93 @@ const routes = [
 			component: home,
 			meta: [],
 		},{
-			path: '/addShop',
-			component: addShop,
-			meta: ['添加数据', '添加商铺'],
+			path: '/goods',
+			component: goods,
+			meta: ['商品管理', '商品列表'],
 		},{
 			path: '/addGoods',
 			component: addGoods,
-			meta: ['添加数据', '添加商品'],
+			meta: ['商品列表', '添加商品'],
 		},{
-			path: '/userList',
-			component: userList,
-			meta: ['数据管理', '用户列表'],
+			path: '/editGoods',
+			component: editGoods,
+			meta: ['商品列表', '修改商品'],
 		},{
-			path: '/shopList',
-			component: shopList,
-			meta: ['数据管理', '商家列表'],
+			path: '/category',
+			component: category,
+			meta: ['商品管理', '商品分类'],
 		},{
-			path: '/foodList',
-			component: foodList,
-			meta: ['数据管理', '食品列表'],
+			path: '/addCategory',
+			component: addCategory,
+			meta: ['商品分类', '添加分类'],
 		},{
-			path: '/orderList',
-			component: orderList,
-			meta: ['数据管理', '订单列表'],
+			path: '/editCategory',
+			component: editCategory,
+			meta: ['商品分类', '修改分类'],
 		},{
-			path: '/adminList',
-			component: adminList,
-			meta: ['数据管理', '管理员列表'],
+			path: '/delivery',
+			component: delivery,
+			meta: ['商品管理', '配送管理'],
 		},{
-			path: '/visitor',
-			component: visitor,
-			meta: ['图表', '用户分布'],
+			path: '/addDelivery',
+			component: addDelivery,
+			meta: ['配送管理', '添加配送'],
 		},{
-			path: '/newMember',
-			component: newMember,
-			meta: ['图表', '用户数据'],
+			path: '/editDelivery',
+			component: editDelivery,
+			meta: ['配送管理', '修改配送'],
 		},{
-			path: '/uploadImg',
-			component: uploadImg,
-			meta: ['文本编辑', 'MarkDown'],
+			path: '/article',
+			component: article,
+			meta: ['分享管理', '文章列表'],
 		},{
-			path: '/vueEdit',
-			component: vueEdit,
-			meta: ['编辑', '文本编辑'],
+			path: '/articlecate',
+			component: articlecate,
+			meta: ['分享管理', '文章分类'],
 		},{
-			path: '/adminSet',
-			component: adminSet,
-			meta: ['设置', '管理员设置'],
+			path: '/model',
+			component: model,
+			meta: ['报价管理', '模型列表'],
 		},{
-			path: '/sendMessage',
-			component: sendMessage,
-			meta: ['设置', '发送通知'],
+			path: '/furniture',
+			component: furniture,
+			meta: ['报价管理', '家具列表'],
 		},{
-			path: '/explain',
-			component: explain,
-			meta: ['说明', '说明'],
+			path: '/permission',
+			component: permission,
+			meta: ['管理员管理', '权限列表'],
+		},{
+			path: '/addPermission',
+			component: addPermission,
+			meta: ['管理员管理', '添加权限节点'],
+		},{
+			path: '/editPermission',
+			component: editPermission,
+			meta: ['管理员管理', '修改权限节点'],
+		},{
+			path: '/role',
+			component: role,
+			meta: ['管理员管理', '角色管理'],
+		},{
+			path: '/addRole',
+			component: addRole,
+			meta: ['管理员管理', '添加角色'],
+		},{
+			path: '/editRole',
+			component: editRole,
+			meta: ['管理员管理', '修改角色'],
+		},{
+			path: '/admin',
+			component: admin,
+			meta: ['管理员管理', '管理员列表'],
+		},{
+			path: '/addAdmin',
+			component: addAdmin,
+			meta: ['管理员管理', '添加管理员'],
+		},{
+			path: '/editAdmin',
+			component: editAdmin,
+			meta: ['管理员管理', '修改管理员'],
 		}]
 	}
 ]

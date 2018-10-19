@@ -4,225 +4,223 @@ import fetch from '@/config/fetch'
  * 登陆
  */
 
-export const login = data => fetch('/admin/login', data, 'POST');
+export const login = data => fetch('/platformmgmt/v1/login', data, 'POST');
 
 /**
  * 退出
  */
 
-export const signout = () => fetch('/admin/singout');
+export const signout = () => fetch('/platformmgmt/v1/logout');
+
+/**
+ * 上传
+ */
+
+export const upload = () => fetch('/platformmgmt/v1/upload',{},'POST');
 
 /**
  * 获取用户信息
  */
 
-export const getAdminInfo = () => fetch('/admin/info');
+export const getAdminInfo = () => fetch('/platformmgmt/v1/getAdminData');
 
 /**
- * api请求量
+ * 获取权限列表
  */
 
-export const apiCount = date => fetch('/statis/api/' + date + '/count');
+export const permissionList = () => fetch('/platformmgmt/v1/permission');
 
 /**
- * 所有api请求量
+ * 添加权限节点
  */
 
-export const apiAllCount = () => fetch('/statis/api/count');
+export const addPermission = data => fetch('/platformmgmt/v1/permission', data, 'POST');
+
+/**
+ * 获取权限节点信息
+ */
+
+export const getPermissionData = id => fetch('/platformmgmt/v1/permission/'+id, {}, 'GET');
+
+/**
+ * 获取非子集节点信息
+ */
+
+export const getPermissionChild = data => fetch('/platformmgmt/permission/getChild', data, 'POST');
+
+/**
+ * 修改权限节点
+ */
+
+export const editPermission = (id,data) => fetch('/platformmgmt/v1/permission/'+id+'/edit', data, 'GET');
+
+/**
+ * 删除权限节点
+ */
+
+export const deletePermission = id => fetch('/platformmgmt/v1/permission/'+id,{}, 'DELETE');
+
+/**
+ * 获取角色列表
+ */
+
+export const roleList = () => fetch('/platformmgmt/v1/role');
+
+/**
+ * 添加角色
+ */
+
+export const addRole = data => fetch('/platformmgmt/v1/role', data, 'POST');
+
+/**
+ * 获取角色信息
+ */
+
+export const getRoleInfo = id => fetch('/platformmgmt/v1/role/'+id, {}, 'GET');
+
+/**
+ * 修改角色
+ */
+
+export const editRole = (id,data) => fetch('/platformmgmt/v1/role/'+id+'/edit', data, 'GET');
+
+/**
+ * 删除角色
+ */
+
+export const deleteRole = id => fetch('/platformmgmt/v1/role/'+id,{}, 'DELETE');
+
+/**
+ * 获取管理员列表
+ */
+
+export const adminList = () => fetch('/platformmgmt/v1/admin');
+
+/**
+ * 添加管理员
+ */
+
+export const addAdmin = data => fetch('/platformmgmt/v1/admin', data, 'POST');
+
+/**
+ * 获取管理员信息
+ */
+
+export const getAdminData = id => fetch('/platformmgmt/v1/admin/'+id, {}, 'GET');
+
+/**
+ * 修改管理员
+ */
+
+export const editAdmin = (id,data) => fetch('/platformmgmt/v1/admin/'+id+'/edit', data, 'GET');
+
+/**
+ * 删除管理员
+ */
+
+export const deleteAdmin = id => fetch('/platformmgmt/v1/admin/'+id,{}, 'DELETE');
+
+/**
+ * 设置管理员状态
+ */
+
+export const setStatus = data => fetch('/platformmgmt/v1/setStatus',data,'POST');
+
+/**
+ * 获取商品分类列表
+ */
+
+export const categoryList = () => fetch('/platformmgmt/v1/category');
+
+/**
+ * 添加商品分类
+ */
+
+export const addCategory = data => fetch('/platformmgmt/v1/category', data, 'POST');
+
+/**
+ * 获取商品分类信息
+ */
+
+export const getCategoryData = id => fetch('/platformmgmt/v1/category/'+id, {}, 'GET');
+
+/**
+ * 修改商品分类
+ */
+
+export const editCategory = (id,data) => fetch('/platformmgmt/v1/category/'+id+'/edit', data, 'GET');
+
+/**
+ * 删除商品分类
+ */
+
+export const deleteCategory = id => fetch('/platformmgmt/v1/category/'+id,{}, 'DELETE');
+
+/**
+ * 获取配送模板列表
+ */
+
+export const deliveryList = () => fetch('/platformmgmt/v1/delivery');
+
+/**
+ * 添加配送模板
+ */
+
+export const addDelivery = data => fetch('/platformmgmt/v1/delivery', data, 'POST');
+
+/**
+ * 获取配送模板信息
+ */
+
+export const getDeliveryData = id => fetch('/platformmgmt/v1/delivery/'+id, {}, 'GET');
+
+/**
+ * 修改配送模板
+ */
+
+export const editDelivery = (id,data) => fetch('/platformmgmt/v1/delivery/'+id+'/edit', data, 'GET');
+
+/**
+ * 删除配送模板
+ */
+
+export const deleteDelivery = id => fetch('/platformmgmt/v1/delivery/'+id,{}, 'DELETE');
 
 
 /**
- * 所有api请求信息
+ * 获取商品列表
  */
 
-export const apiAllRecord = () => fetch('/statis/api/all');
+export const goodsList = () => fetch('/platformmgmt/v1/goods');
 
 /**
- * 用户注册量
+ * 添加商品
  */
 
-export const userCount = date => fetch('/statis/user/' + date + '/count');
+export const addGoods = data => fetch('/platformmgmt/v1/goods', data, 'POST');
 
 /**
- * 某一天订单数量
+ * 获取商品信息
  */
 
-export const orderCount = date => fetch('/statis/order/' + date + '/count');
-
+export const getGoodsData = id => fetch('/platformmgmt/v1/goods/'+id, {}, 'GET');
 
 /**
- * 某一天管理员注册量
+ * 修改商品
  */
 
-export const adminDayCount = date => fetch('/statis/admin/' + date + '/count');
+export const editGoods = (id,data) => fetch('/platformmgmt/v1/goods/'+id+'/edit', data, 'GET');
 
 /**
- * 管理员列表
+ * 删除商品
  */
 
-export const adminList = data => fetch('/admin/all', data);
+export const deleteGoods = id => fetch('/platformmgmt/v1/goods/'+id,{}, 'DELETE');
 
 /**
- * 管理员数量
+ * 添加商品规格
  */
 
-export const adminCount = () => fetch('/admin/count');
-
-/**
- * 获取定位城市
- */
-
-export const cityGuess = () => fetch('/v1/cities', {
-	type: 'guess'
-});
-
-/**
- * 添加商铺
- */
-
-export const addShop = data => fetch('/shopping/addShop', data, 'POST');
-
-/**
- * 获取搜索地址
- */
-
-export const searchplace = (cityid, value) => fetch('/v1/pois', {
-	type: 'search',
-	city_id: cityid,
-	keyword: value
-});
-
-/**
- * 获取当前店铺食品种类
- */
-
-export const getCategory = restaurant_id => fetch('/shopping/getcategory/' + restaurant_id);
-
-/**
- * 添加食品种类
- */
-
-export const addCategory = data => fetch('/shopping/addcategory', data, 'POST');
+export const addSpec = data => fetch('/platformmgmt/v1/addSpec', data, 'POST');
 
 
-/**
- * 添加食品
- */
-
-export const addFood = data => fetch('/shopping/addfood', data, 'POST');
-
-
-/**
- * category 种类列表
- */
-
-export const foodCategory = (latitude, longitude) => fetch('/shopping/v2/restaurant/category');
-
-/**
- * 获取餐馆列表
- */
-
-export const getResturants = data => fetch('/shopping/restaurants', data);
-
-/**
- * 获取餐馆详细信息
- */
-
-export const getResturantDetail = restaurant_id => fetch('/shopping/restaurant/' + restaurant_id);
-
-/**
- * 获取餐馆数量
- */
-
-export const getResturantsCount = () => fetch('/shopping/restaurants/count');
-
-/**
- * 更新餐馆信息
- */
-
-export const updateResturant = data => fetch('/shopping/updateshop', data, 'POST');
-
-/**
- * 删除餐馆
- */
-
-export const deleteResturant = restaurant_id => fetch('/shopping/restaurant/' + restaurant_id, {}, 'DELETE');
-
-/**
- * 获取食品列表
- */
-
-export const getFoods = data => fetch('/shopping/v2/foods', data);
-
-/**
- * 获取食品数量
- */
-
-export const getFoodsCount = data => fetch('/shopping/v2/foods/count', data);
-
-
-/**
- * 获取menu列表
- */
-
-export const getMenu = data => fetch('/shopping/v2/menu', data);
-
-/**
- * 获取menu详情
- */
-
-export const getMenuById = category_id => fetch('/shopping/v2/menu/' + category_id);
-
-/**
- * 更新食品信息
- */
-
-export const updateFood = data => fetch('/shopping/v2/updatefood', data, 'POST');
-
-/**
- * 删除食品
- */
-
-export const deleteFood = food_id => fetch('/shopping/v2/food/' + food_id, {}, 'DELETE');
-
-/**
- * 获取用户列表
- */
-
-export const getUserList = data => fetch('/v1/users/list', data);
-
-/**
- * 获取用户数量
- */
-
-export const getUserCount = data => fetch('/v1/users/count', data);
-
-/**
- * 获取订单列表
- */
-
-export const getOrderList = data => fetch('/bos/orders', data);
-
-/**
- * 获取订单数量
- */
-
-export const getOrderCount = data => fetch('/bos/orders/count', data);
-
-/**
- * 获取用户信息
- */
-
-export const getUserInfo = user_id => fetch('/v1/user/' + user_id);
-
-/**
- * 获取地址信息
- */
-
-export const getAddressById = address_id => fetch('/v1/addresse/' + address_id);
-
-/**
- * 获取用户分布信息
- */
-
-export const getUserCity = () => fetch('/v1/user/city/count');
