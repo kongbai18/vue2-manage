@@ -7,10 +7,7 @@
 					<el-form-item label="分类名称" prop="name">
 						<el-input v-model="formData.name"></el-input>
 					</el-form-item>
-					<el-form-item label="英文名称" prop="en_name">
-						<el-input v-model="formData.en_name"></el-input>
-					</el-form-item>
-					<el-form-item label="上级分类">
+					<el-form-item label="上级分类" prop="parent_id">
 						<el-select v-model="formData.parent_id" filterable placeholder="请选择">
 						    <el-option value="0" label="顶级权限">顶级权限</el-option>
 						    <el-option
@@ -19,18 +16,6 @@
 						      :value="item.id">
 						    </el-option>
 						</el-select>
-					</el-form-item>
-					<el-form-item label="分类图" prop="image_url">
-						<el-upload
-							  class="upload-demo"
-							  action="http://jiihome.shimentown.com/platformmgmt/v1/upload"
-							  :file-list="fileList"
-							  :on-success="upSuccess"
-							  with-credentials
-							  list-type="picture-card">
-							  <el-button size="small" type="primary">点击上传</el-button>
-							  <div slot="tip" class="el-upload__tip">上传文件不超过2M</div>
-						</el-upload>
 					</el-form-item>
 					<el-form-item label="排序" prop="sort_id">
 						<el-input v-model="formData.sort_id"></el-input>
@@ -41,7 +26,7 @@
 					</el-form-item>
 
 					<el-form-item class="button_submit">
-						<el-button type="primary" @click="submitForm('formData')">确认修改</el-button>
+						<el-button type="primary" @click="submitForm('formData')">立即创建</el-button>
 					</el-form-item>
 				</el-form>
   			</el-col>
@@ -51,7 +36,7 @@
 
 <script>
     import headTop from '@/components/headTop'
-    import {getCategoryChild,getCategoryData, editCategory} from '@/api/getData'
+    import {articleCateList, addArticleCate} from '@/api/getData'
     import {baseUrl, baseImgPath} from '@/config/env'
     export default {
     	data(){
@@ -60,9 +45,7 @@
     			fileList:[],
     			formData: {
                     name: '', 
-					en_name:'',
 					parent_id:'',
-					image_url:'',
 					is_index:'1',
 					sort_id:'100'
 		        },
@@ -83,7 +66,6 @@
     		this.initData();
     		this.formData = {
                     name: '', 
-					en_name:'',
 					parent_id:'',
 					is_index:'1',
 					sort_id:'100'
@@ -92,8 +74,7 @@
     	methods: {
     		async initData(){
     			try{
-    			    const id = this.$route.query.id;
-    				const res = await getCategoryChild({id:id});
+    				const res = await articleCateList();
     				console.log(res);
     				if(res.status == 1){
     				   this.categoryData = res.data.categoryData
@@ -107,19 +88,6 @@
 
                        this.$router.push('category');
                     }
-
-                    
-    			    this.id = id;
-                    const category = await getCategoryData(id);
-                    console.log(category);
-                    if(category.status == 1){
-                        this.fileList = [{'url':category.data.categoryData.image_url}]
-                        this.formData.name = category.data.categoryData.name;
-                        this.formData.en_name = category.data.categoryData.en_name;
-                        this.formData.parent_id = category.data.categoryData.parent_id;
-                        this.formData.is_index = category.data.categoryData.is_index;
-                        this.formData.sort_id = category.data.categoryData.sort_id;
-                    }
     			}catch(err){
     				console.log(err);
     			}
@@ -130,14 +98,14 @@
 					if (valid) {
 					    console.log(this.formData);
 						try{
-							const res = await editCategory(this.id,this.formData);
+							const res = await addArticleCate(this.formData);
 							console.log(res);
 							if (res.status == 1) {
 								this.$message({
 					            	type: 'success',
-					            	message: '修改成功'
+					            	message: '添加成功'
 					          	});
-					          	this.$router.push('category')
+					          	this.$router.push('articleCate')
 							}else{
 								this.$message({
 					            	type: 'error',
@@ -158,12 +126,6 @@
 					}
 				});
 			},
-			upSuccess(response, file, fileList){
-			  if(response.status == 1){
-			     this.fileList = [{'url':response.data.path}];
-			     this.formData.image_url = response.data.path;
-			  }
-			}
 		}
     }
 </script>

@@ -46,7 +46,7 @@ export const getPermissionData = id => fetch('/platformmgmt/v1/permission/'+id, 
  * 获取非子集节点信息
  */
 
-export const getPermissionChild = data => fetch('/platformmgmt/permission/getChild', data, 'POST');
+export const getPermissionChild = data => fetch('/platformmgmt/v1/permission/getChild', data, 'POST');
 
 /**
  * 修改权限节点
@@ -157,6 +157,12 @@ export const editCategory = (id,data) => fetch('/platformmgmt/v1/category/'+id+'
 export const deleteCategory = id => fetch('/platformmgmt/v1/category/'+id,{}, 'DELETE');
 
 /**
+ * 获取非子集节点信息
+ */
+
+export const getCategoryChild = data => fetch('/platformmgmt/category/getChild', data, 'POST');
+
+/**
  * 获取配送模板列表
  */
 
@@ -224,3 +230,68 @@ export const deleteGoods = id => fetch('/platformmgmt/v1/goods/'+id,{}, 'DELETE'
 export const addSpec = data => fetch('/platformmgmt/v1/addSpec', data, 'POST');
 
 
+/**
+ * 获取商品分类列表
+ */
+
+export const articleCateList = () => fetch('/platformmgmt/v1/articleCate');
+
+/**
+ * 添加商品分类
+ */
+
+export const addArticleCate = data => fetch('/platformmgmt/v1/articleCate', data, 'POST');
+
+/**
+ * 获取商品分类信息
+ */
+
+export const getArticleCateData = id => fetch('/platformmgmt/v1/articleCate/'+id, {}, 'GET');
+
+/**
+ * 修改商品分类
+ */
+
+export const editArticleCate = (id,data) => fetch('/platformmgmt/v1/articleCate/'+id+'/edit', data, 'GET');
+
+/**
+ * 删除商品分类
+ */
+
+export const deleteArticleCate = id => fetch('/platformmgmt/v1/articleCate/'+id,{}, 'DELETE');
+
+/**
+ * 获取非子集节点信息
+ */
+
+export const getArticleCateChild = data => fetch('/platformmgmt/articleCate/getChild', data, 'POST');
+
+/**
+ * 获取文章列表
+ */
+
+export const articleList = () => fetch('/platformmgmt/v1/article');
+
+/**
+ * 添加文章
+ */
+
+export const addArticle = data => fetch('/platformmgmt/v1/article', data, 'POST');
+
+/**
+ * 获取文章信息
+ */
+
+export const getArticleData = id => fetch('/platformmgmt/v1/article/'+id, {}, 'GET');
+
+/**
+ * 修改文章
+ */
+
+export const editArticle = data => fetch('/platformmgmt/v1/article/edit', data, 'POST');
+
+/**
+ * 删除文章
+ */
+
+export const deleteArticle = id => fetch('/platformmgmt/v1/article/'+id,{}, 'DELETE');

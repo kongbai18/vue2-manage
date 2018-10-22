@@ -2,17 +2,13 @@
     <div>
         <head-top></head-top>
         <el-row style="margin-top: 20px;">
-  			<el-col :span="12" :offset="4">
-		        <el-form :model="formData" :rules="rules" ref="formData" label-width="110px" class="demo-formData">
-					<el-form-item label="分类名称" prop="name">
-						<el-input v-model="formData.name"></el-input>
+  			<el-col :span="20" :offset="2">
+		        <el-form :model="formData" :rules="rules" ref="formData" label-width="100px" class="demo-formData">
+					<el-form-item label="文章名称" prop="article_name">
+						<el-input v-model="formData.article_name"></el-input>
 					</el-form-item>
-					<el-form-item label="英文名称" prop="en_name">
-						<el-input v-model="formData.en_name"></el-input>
-					</el-form-item>
-					<el-form-item label="上级分类">
-						<el-select v-model="formData.parent_id" filterable placeholder="请选择">
-						    <el-option value="0" label="顶级权限">顶级权限</el-option>
+					<el-form-item label="文章分类" prop="cate_id">
+						<el-select v-model="formData.cate_id" filterable placeholder="请选择">
 						    <el-option
 						      v-for="item in categoryData"
 						      :label="item.name"
@@ -20,7 +16,19 @@
 						    </el-option>
 						</el-select>
 					</el-form-item>
-					<el-form-item label="分类图" prop="image_url">
+					<el-form-item label="文章简介" prop="article_brief">
+						<el-input type="textarea" v-model="formData.article_brief"></el-input>
+					</el-form-item>
+					<el-form-item label="关联商品" prop="goods">
+						<el-select v-model="formData.cate_id" filterable placeholder="请选择">
+						    <el-option
+						      v-for="item in goodsData"
+						      :label="item.name"
+						      :value="item.id">
+						    </el-option>
+						</el-select>
+					</el-form-item>
+					<el-form-item label="文章封面" prop="image_url">
 						<el-upload
 							  class="upload-demo"
 							  action="http://jiihome.shimentown.com/platformmgmt/v1/upload"
@@ -32,6 +40,12 @@
 							  <div slot="tip" class="el-upload__tip">上传文件不超过2M</div>
 						</el-upload>
 					</el-form-item>
+					
+
+					<el-form-item label="文章内容" prop="content">
+							<div id="editorElem" style="text-align:left"></div>
+					</el-form-item>
+					
 					<el-form-item label="排序" prop="sort_id">
 						<el-input v-model="formData.sort_id"></el-input>
 					</el-form-item>
@@ -41,7 +55,7 @@
 					</el-form-item>
 
 					<el-form-item class="button_submit">
-						<el-button type="primary" @click="submitForm('formData')">确认修改</el-button>
+						<el-button type="primary" @click="submitForm('formData')">立即创建</el-button>
 					</el-form-item>
 				</el-form>
   			</el-col>
@@ -50,51 +64,67 @@
 </template>
 
 <script>
+    import Vue from 'vue'
+    import E from 'wangeditor'
     import headTop from '@/components/headTop'
-    import {getCategoryChild,getCategoryData, editCategory} from '@/api/getData'
+    import {articleCateList, addArticle,goodsList} from '@/api/getData'
     import {baseUrl, baseImgPath} from '@/config/env'
     export default {
     	data(){
     		return {
     			categoryData: [],
     			fileList:[],
+    			tableData:[],
+    			goodsData:[],
+    			editorContent: '',
+    			showSpec:true,
+    			specStatus:true,
+    			spevValStatus:true,
+    			ceshi:[],
     			formData: {
-                    name: '', 
-					en_name:'',
-					parent_id:'',
+                    article_name: '', 
+					article_brief:'',
+					cate_id:'',
+					content:'',
 					image_url:'',
 					is_index:'1',
-					sort_id:'100'
+					sort_id:'100',
+					goods:[],
 		        },
 		        rules: {
-					name: [
+					article_name: [
 						{ required: true, message: '请输入权限名称', trigger: 'blur' },
 					],
-					parent_id: [
+					cate_id: [
 						{ required: true, message: '请选择上级权限', trigger: 'blur' }
+					],
+					image_url: [
+						{ required: true, message: '请上传封面图', trigger: 'blur' }
+					],
+					content: [
+						{ required: true, message: '请输入文章内容', trigger: 'blur' }
 					]
 				},
     		}
     	},
+
     	components: {
     		headTop,
     	},
     	activated(){
     		this.initData();
-    		this.formData = {
-                    name: '', 
-					en_name:'',
-					parent_id:'',
-					is_index:'1',
-					sort_id:'100'
-		        };
     	},
+    	mounted() {
+	        var editor = new E('#editorElem')
+	        editor.customConfig.onchange = (html) => {
+	          this.editorContent = html
+	        }
+	        editor.create()
+       },
     	methods: {
     		async initData(){
     			try{
-    			    const id = this.$route.query.id;
-    				const res = await getCategoryChild({id:id});
-    				console.log(res);
+    				const res = await articleCateList();
     				if(res.status == 1){
     				   this.categoryData = res.data.categoryData
     				}else if(res.status == -1){
@@ -108,43 +138,33 @@
                        this.$router.push('category');
                     }
 
-                    
-    			    this.id = id;
-                    const category = await getCategoryData(id);
-                    console.log(category);
-                    if(category.status == 1){
-                        this.fileList = [{'url':category.data.categoryData.image_url}]
-                        this.formData.name = category.data.categoryData.name;
-                        this.formData.en_name = category.data.categoryData.en_name;
-                        this.formData.parent_id = category.data.categoryData.parent_id;
-                        this.formData.is_index = category.data.categoryData.is_index;
-                        this.formData.sort_id = category.data.categoryData.sort_id;
+                    const goods = await goodsList();
+                    if(goods.status == 1){
+                       this.goodsData = goods.data.goods;
                     }
     			}catch(err){
     				console.log(err);
     			}
     		},
-
 		    submitForm(formName) {
+		        this.formData.content = this.editorContent;
 				this.$refs[formName].validate(async (valid) => {
 					if (valid) {
-					    console.log(this.formData);
 						try{
-							const res = await editCategory(this.id,this.formData);
+							const res = await addArticle(this.formData);
 							console.log(res);
 							if (res.status == 1) {
 								this.$message({
 					            	type: 'success',
-					            	message: '修改成功'
+					            	message: '添加成功'
 					          	});
-					          	this.$router.push('category')
+					          	this.$router.push('article')
 							}else{
 								this.$message({
 					            	type: 'error',
 					            	message: res.message
 					          	});
 							}
-							console.log(result)
 						}catch(err){
 							console.log(err)
 						}
@@ -158,12 +178,16 @@
 					}
 				});
 			},
-			upSuccess(response, file, fileList){
+            upSuccess(response, file, fileList){
+            console.log(response);
 			  if(response.status == 1){
 			     this.fileList = [{'url':response.data.path}];
 			     this.formData.image_url = response.data.path;
+			  }else{
+			     this.fileList = [];
+			     this.formData.image_url = '';
 			  }
-			}
+			},
 		}
     }
 </script>
@@ -202,5 +226,9 @@
 
 	.el-table .positive-row {
 	    background: #e2f0e4;
+	}
+	.muchSpec{
+	    border:1px solid #f3f3f3;
+	    padding:20px;
 	}
 </style>

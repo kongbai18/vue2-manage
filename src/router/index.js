@@ -15,8 +15,12 @@ const editCategory = r => require.ensure([], () => r(require('@/page/goods/categ
 const delivery = r => require.ensure([], () => r(require('@/page/goods/delivery/delivery')), 'delivery');
 const addDelivery = r => require.ensure([], () => r(require('@/page/goods/delivery/addDelivery')), 'addDelivery');
 const editDelivery = r => require.ensure([], () => r(require('@/page/goods/delivery/editDelivery')), 'editDelivery');
-const article = r => require.ensure([], () => r(require('@/page/shopList')), 'article');
-const articlecate = r => require.ensure([], () => r(require('@/page/foodList')), 'articlecate');
+const article = r => require.ensure([], () => r(require('@/page/article/article/article')), 'article');
+const addArticle = r => require.ensure([], () => r(require('@/page/article/article/addArticle')), 'addArticle');
+const editArticle = r => require.ensure([], () => r(require('@/page/article/article/editArticle')), 'editArticle');
+const articlecate = r => require.ensure([], () => r(require('@/page/article/category/category')), 'articlecate');
+const addArticleCate = r => require.ensure([], () => r(require('@/page/article/category/addCategory')), 'addArticleCate');
+const editArticleCate = r => require.ensure([], () => r(require('@/page/article/category/editCate')), 'editArticleCate');
 const model = r => require.ensure([], () => r(require('@/page/orderList')), 'model');
 const furniture = r => require.ensure([], () => r(require('@/page/adminList')), 'furniture');
 const permission = r => require.ensure([], () => r(require('@/page/admin/permissionList')), 'permission');
@@ -85,9 +89,25 @@ const routes = [
 			component: article,
 			meta: ['分享管理', '文章列表'],
 		},{
+			path: '/addArticle',
+			component: addArticle,
+			meta: ['文章列表', '添加文章'],
+		},{
+			path: '/editArticle',
+			component: editArticle,
+			meta: ['文章列表', '修改文章'],
+		},{
 			path: '/articlecate',
 			component: articlecate,
 			meta: ['分享管理', '文章分类'],
+		},{
+			path: '/addArticleCate',
+			component: addArticleCate,
+			meta: ['文章分类', '添加分类'],
+		},{
+			path: '/editArticleCate',
+			component: editArticleCate,
+			meta: ['文章分类', '修改分类'],
 		},{
 			path: '/model',
 			component: model,
